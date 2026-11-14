@@ -13,9 +13,13 @@ class Payment extends Model
     ];
 
     protected $casts = [
-        'paid_at' => 'datetime',
-        'expired_at' => 'datetime',
+        'payment_date' => 'datetime',
+        'transaction_time' => 'datetime',
+        'settlement_time' => 'datetime',
+        'expiry_time' => 'datetime',
+        'verified_at' => 'datetime',
         'response_payload' => 'array',
+        'amount' => 'decimal:2',
     ];
 
     public function booking()

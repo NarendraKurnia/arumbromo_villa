@@ -24,13 +24,13 @@ class Villa extends Model
         return $this->hasMany(Room::class, 'villa_id');
     }
 
-    public function facilities(): BelongsToMany
+    public function facilities()
     {
         return $this->belongsToMany(
             Facility::class,
             'villa_facilities',
             'villa_id',
             'facility_id'
-        );
+        )->withTimestamps();
     }
 }

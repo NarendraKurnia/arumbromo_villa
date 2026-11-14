@@ -1,0 +1,29 @@
+ @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap');
+    .mora-logo {
+      font-family: 'Cinzel Decorative', serif;
+      font-weight: 700;
+      font-size: 2.5rem;
+      letter-spacing: 0.15em;
+    }
+    /* Custom scrollbar hidden for input fields date range if needed */
+    /* Dark gradient background overlay */
+    .background-gradient {
+      background: linear-gradient(180deg, #2c2c2c 0%, #000000 100%);
+    }
+    /* Custom focus and icon styling */
+    .input-icon {
+      pointer-events: none;
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #4a5a44;
+      font-size: 1rem;
+    }
+     /* Styling tanggal merah */
+  .litepicker .day-item.red-day {
+    color: red !important;
+    font-weight: bold;
+  }
+    
+    
