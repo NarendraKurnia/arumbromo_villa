@@ -9,11 +9,13 @@ class RoomImage extends Model
     protected $table = 'room_images';
 
     protected $fillable = [
-        // Sesuaikan dengan kolom tabel room_images
+        'room_id',
+        'image',
+        'is_primary'
     ];
 
     public function room()
     {
-        return $this->belongsTo(Room::class, 'room_id');
+        return $this->belongsTo(Room::class, 'room_id', 'id');
     }
 }

@@ -4,13 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\OTPController;
 use App\Http\Controllers\Auth\LoginController;
-
-
-use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\VillaController;
-use App\Http\Controllers\Frontend\RoomController;
-
+use App\Http\Controllers\VillaController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AvailabilityController;
 
 
 
@@ -21,15 +19,19 @@ use App\Http\Controllers\Admin\DashboardController;
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
 
-Route::get('/villas', [VillaController::class, 'index'])
-    ->name('villas.index');
-
-Route::get('/villas/{slug}', [VillaController::class, 'show'])
-    ->name('villas.show');
+Route::get('/kamar', [RoomController::class, 'index'])
+    ->name('room.index');
+// DETAIL KAMAR
+Route::get('/kamar/{slug}', [RoomController::class, 'detail'])
+    ->name('room.detail');
 
 Route::get('/room/{id}', [RoomController::class, 'show'])
     ->name('rooms.show');
 
+Route::get('/ketersediaan-kamar', [
+    AvailabilityController::class,
+    'index'
+])->name('availability.index');
 
 // ==========================================
 // AUTHENTICATION
@@ -55,10 +57,7 @@ Route::post('/logout', [LoginController::class, 'logout'])
     ->middleware('user.session')
     ->name('logout');
 
-
-// ==========================================
 // ADMINISTRATOR
-// ==========================================
 
 Route::prefix('admin')
     ->name('admin.')
@@ -94,3 +93,11 @@ Route::post('/resend-otp-email', [OTPController::class, 'resendEmail'])
 
 Route::post('/send-otp-whatsapp', [OTPController::class, 'sendWhatsapp'])
     ->name('otp.send.whatsapp');
+
+// villa
+
+Route::get('/villa', [VillaController::class, 'index'])
+    ->name('villa.index');
+
+Route::get('/villa/{id}', [VillaController::class, 'detail'])
+    ->name('villa.detail');
