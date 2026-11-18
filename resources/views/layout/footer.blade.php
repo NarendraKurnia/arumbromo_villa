@@ -61,22 +61,55 @@
   <style>@keyframes marquee { to { transform: translateX(-50%); } }</style>
 
 <script>
-    // Menu mobile
-    const btn = document.getElementById('menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    btn?.addEventListener('click', () => {
-        const open = menu.classList.toggle('hidden') === false;
-        btn.setAttribute('aria-expanded', open);
-    });
+  function toggleMobileMenu(e) {
+    if (e) e.stopPropagation();
+    var m = document.getElementById('mobile-menu');
+    var b = document.getElementById('menu-btn');
+    var open = (m.style.display === 'none' || m.style.display === '');
+    m.style.display = open ? 'block' : 'none';
+    b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    var h = document.getElementById('site-header');
+    h.setAttribute('data-menu', open ? '1' : '0');
+    h.classList.toggle('bg-brand-black', open || window.scrollY > 40 || h.dataset.solid === '1');
+  }
 
-    // Header jadi solid saat discroll (kecuali sudah solid dari awal)
-    const header = document.getElementById('site-header');
-    const onScroll = () => {
-        if (header.dataset.solid === '1') return;
-        header.classList.toggle('bg-brand-black', window.scrollY > 40);
-    };
+  function toggleUserMenu(e) {
+    if (e) e.stopPropagation();
+    var d = document.getElementById('userDropdown');
+    if (d) d.classList.toggle('hidden');
+  }
+
+  function toggleUserMenuMobile() {
+    var d = document.getElementById('userDropdownMobile');
+    if (d) d.classList.toggle('hidden');
+  }
+
+  (function () {
+    var h = document.getElementById('site-header');
+    var m = document.getElementById('mobile-menu');
+
+    // Header solid saat scroll
+    function onScroll() {
+      var forced = h.dataset.solid === '1' || h.getAttribute('data-menu') === '1';
+      h.classList.toggle('bg-brand-black', forced || window.scrollY > 40);
+    }
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+
+    // Tutup menu mobile jika layar melebar atau link diklik
+    window.addEventListener('resize', function () {
+      if (window.innerWidth >= 1280) { m.style.display = 'none'; h.setAttribute('data-menu', '0'); }
+    });
+    m.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { m.style.display = 'none'; h.setAttribute('data-menu', '0'); });
+    });
+
+    // Tutup dropdown user saat klik di luar
+    document.addEventListener('click', function (e) {
+      var d = document.getElementById('userDropdown');
+      if (d && !d.classList.contains('hidden') && !d.contains(e.target)) d.classList.add('hidden');
+    });
+  })();
 </script>
 {{-- pencarian kamar --}}
 <script>
@@ -109,5 +142,71 @@
             checkIn.dispatchEvent(new Event('change'));
         }
     });
+</script>
+{{-- search room in home --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkIn = document.getElementById('check_in');
+        const checkOut = document.getElementById('check_out');
+        if (!checkIn || !checkOut) return;
+
+        checkIn.addEventListener('change', function () {
+            if (!this.value) return;
+            const nextDay = new Date(this.value + 'T00:00:00');
+            nextDay.setDate(nextDay.getDate() + 1);
+            const minimumCheckout = [
+                nextDay.getFullYear(),
+                String(nextDay.getMonth() + 1).padStart(2, '0'),
+                String(nextDay.getDate()).padStart(2, '0')
+            ].join('-');
+            checkOut.min = minimumCheckout;
+            if (checkOut.value && checkOut.value <= this.value) {
+                checkOut.value = minimumCheckout;
+            }
+        });
+
+        if (checkIn.value) checkIn.dispatchEvent(new Event('change'));
+    });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const userMenuBtn = document.getElementById('user-menu-btn');
+    const userDropdown = document.getElementById('user-dropdown');
+    const userMenuArrow = document.getElementById('user-menu-arrow');
+
+    if (userMenuBtn && userDropdown) {
+
+        userMenuBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+
+            const isHidden = userDropdown.classList.contains('hidden');
+
+            userDropdown.classList.toggle('hidden');
+
+            userMenuBtn.setAttribute('aria-expanded', !isHidden);
+
+            if (userMenuArrow) {
+                userMenuArrow.classList.toggle('rotate-180', !isHidden);
+            }
+        });
+
+        document.addEventListener('click', function (e) {
+            if (
+                !userMenuBtn.contains(e.target) &&
+                !userDropdown.contains(e.target)
+            ) {
+                userDropdown.classList.add('hidden');
+                userMenuBtn.setAttribute('aria-expanded', 'false');
+
+                if (userMenuArrow) {
+                    userMenuArrow.classList.remove('rotate-180');
+                }
+            }
+        });
+    }
+
+});
 </script>
 </footer>

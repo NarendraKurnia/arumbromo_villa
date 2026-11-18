@@ -9,6 +9,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AvailabilityController;
+use App\Http\Controllers\BookingController;
 
 
 
@@ -33,6 +34,16 @@ Route::get('/ketersediaan-kamar', [
     'index'
 ])->name('availability.index');
 
+// Booking
+Route::get('/booking', [BookingController::class, 'index'])
+    ->name('booking.index');
+
+Route::post('/booking', [BookingController::class, 'store'])
+    ->name('booking.store');
+
+Route::get('/booking/{bookingCode}', [BookingController::class, 'detail'])
+    ->name('booking.detail');
+
 // ==========================================
 // AUTHENTICATION
 // ==========================================
@@ -44,6 +55,12 @@ Route::middleware('guest')->group(function () {
 
     Route::post('/login', [LoginController::class, 'login'])
         ->name('login.process');
+        
+    Route::get('/profil', [ProfileController::class, 'index'])
+    ->name('profile.index');
+
+    Route::get('/riwayat-booking', [ProfileController::class, 'history'])
+    ->name('profile.history');
 
     Route::get('/register', [RegisterController::class, 'index'])
         ->name('register');

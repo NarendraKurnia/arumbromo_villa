@@ -27,7 +27,7 @@
       Menginap Tenang di Villa Impian Anda
     </h1>
 
-    <form action="{{ url('availability.index') }}" method="GET"
+    <form action="{{ route('availability.index') }}" method="GET"
       class="mt-16 overflow-hidden rounded-2xl border border-white/30 bg-white/10 text-white shadow-2xl shadow-black/20 backdrop-blur-md">
 
   {{-- Judul form --}}
@@ -53,9 +53,9 @@
       </span>
       <span class="min-w-0 flex-1">
         <span class="block text-[11px] font-semibold uppercase tracking-widest text-white/70">Check-in</span>
-        <input type="date" name="checkin" id="checkin" min="{{ date('Y-m-d') }}"
-               value="{{ request('checkin') }}" required
-               class="mt-1 w-full bg-transparent text-sm font-semibold text-white outline-none [color-scheme:dark]">
+        <input type="date" name="check_in" id="check_in" min="{{ date('Y-m-d') }}"
+         value="{{ request('check_in') }}" required
+         class="mt-1 w-full bg-transparent text-sm font-semibold text-white outline-none [color-scheme:dark]">
       </span>
     </label>
 
@@ -69,9 +69,9 @@
       </span>
       <span class="min-w-0 flex-1">
         <span class="block text-[11px] font-semibold uppercase tracking-widest text-white/70">Check-out</span>
-        <input type="date" name="checkout" id="checkout" min="{{ date('Y-m-d', strtotime('+1 day')) }}"
-               value="{{ request('checkout') }}" required
-               class="mt-1 w-full bg-transparent text-sm font-semibold text-white outline-none [color-scheme:dark]">
+        <input type="date" name="check_out" id="check_out" min="{{ date('Y-m-d', strtotime('+1 day')) }}"
+         value="{{ request('check_out') }}" required
+         class="mt-1 w-full bg-transparent text-sm font-semibold text-white outline-none [color-scheme:dark]">
       </span>
     </label>
 

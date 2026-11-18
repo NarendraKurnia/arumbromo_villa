@@ -151,43 +151,38 @@
                             <p class="text-sm text-gray-500 mb-2">
                                 Rincian Harga
                             </p>
-
                             @foreach($item['nightly_prices'] as $night)
-
                                 <div class="flex justify-between gap-3 text-sm mb-2">
-
                                     <span class="text-gray-600">
                                         {{ $night['date'] }}
                                         ({{ $night['season'] }})
                                     </span>
-
                                     <span class="font-medium text-gray-800">
                                         Rp{{ number_format($night['price'], 0, ',', '.') }}
                                     </span>
-
                                 </div>
-
                             @endforeach
-
                             <div class="border-t mt-4 pt-4">
-
                                 <p class="text-sm text-gray-500">
                                     Total {{ $item['total_nights'] }} Malam
                                 </p>
-
                                 <p class="text-2xl font-bold text-amber-700 mt-1">
                                     Rp{{ number_format($item['total_price'], 0, ',', '.') }}
                                 </p>
-
                             </div>
-
                         </div>
-
                         <a href="{{ route('room.detail', $room->slug) }}"
                            class="block text-center bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 rounded-lg mt-6 transition">
-
                             Lihat Detail Kamar
-
+                        </a>
+                        <a href="{{ route('booking.index', [
+                            'room_id' => $room->id,
+                            'check_in' => request('check_in'),
+                            'check_out' => request('check_out'),
+                            'dewasa' => request('dewasa', 1),
+                            'anak' => request('anak', 0),
+                        ]) }}">
+                            Pesan Kamar
                         </a>
 
                     </div>
