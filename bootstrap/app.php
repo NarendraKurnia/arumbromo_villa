@@ -13,12 +13,16 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
 
-        $middleware->alias([
-            'user.session' => \App\Http\Middleware\CheckUserSession::class,
-            'admin' => \App\Http\Middleware\CheckAdmin::class,
-        ]);
+    $middleware->alias([
+        'user.session' => \App\Http\Middleware\CheckUserSession::class,
+        'admin' => \App\Http\Middleware\CheckAdmin::class,
+    ]);
 
-    })
+    $middleware->validateCsrfTokens(except: [
+        'midtrans/notification',
+    ]);
+
+})
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),

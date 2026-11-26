@@ -9,7 +9,28 @@ class Payment extends Model
     protected $table = 'payments';
 
     protected $fillable = [
-        // Sesuaikan dengan kolom tabel payments
+        'booking_id',
+        'gateway',
+        'payment_method_id',
+        'payment_code',
+        'midtrans_order_id',
+        'transaction_id',
+        'snap_token',
+        'redirect_url',
+        'amount',
+        'payment_date',
+        'proof_image',
+        'status',
+        'transaction_status',
+        'payment_type',
+        'fraud_status',
+        'transaction_time',
+        'settlement_time',
+        'expiry_time',
+        'response_payload',
+        'verified_by',
+        'verified_at',
+        'admin_note',
     ];
 
     protected $casts = [

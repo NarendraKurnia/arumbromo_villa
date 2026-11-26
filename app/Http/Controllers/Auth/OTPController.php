@@ -100,18 +100,26 @@ class OTPController extends Controller
 
             session()->forget('registration_email');
 
-            return redirect()->route('login')
-                ->with('success', 'Registrasi berhasil! Silakan login.');
+            return redirect()
+            ->route('login')
+            ->with('sukses', 'Verifikasi akun berhasil! Silakan login menggunakan email dan password Anda.');
 
         } catch (\Throwable $e) {
 
-            DB::rollBack();
+    DB::rollBack();
 
-            return back()->with(
-                'error',
-                'Verifikasi gagal. Silakan coba kembali.'
-            );
-        }
+    \Illuminate\Support\Facades\Log::error('Verifikasi OTP gagal', [
+        'email' => $otp->email ?? null,
+        'error' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine(),
+    ]);
+
+    return back()->with(
+        'error',
+        'Verifikasi gagal. Silakan coba kembali.'
+    );
+}
     }
 
 
@@ -149,6 +157,7 @@ class OTPController extends Controller
                 'otp_code' => Hash::make($otpCode),
                 'channel' => 'email',
                 'expires_at' => now()->addMinutes(5),
+                'verified_at' => now(),
                 'last_sent_at' => now(),
                 'attempts' => 0,
             ]);

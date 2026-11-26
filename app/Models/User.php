@@ -9,9 +9,15 @@ class User extends Authenticatable
 {
     protected $table = 'users';
 
-    protected $fillable = [
-        // Sesuaikan dengan kolom tabel users
-    ];
+        protected $fillable = [
+    'name',
+    'email',
+    'phone',
+    'address',
+    'password',
+    'role',
+    'status',
+];
 
     public function bookings(): HasMany
     {

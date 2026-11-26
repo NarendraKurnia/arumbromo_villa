@@ -49,7 +49,7 @@
       Sign in to access your account and explore our latest offers.
     </p>
       <!-- Form -->
-      <form action=/login  method="post">
+      <form action="{{ route('login.submit') }}" method="POST">
   @csrf
   <!-- Email -->
   <div class="mb-4">

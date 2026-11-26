@@ -9,13 +9,28 @@ class Voucher extends Model
     protected $table = 'vouchers';
 
     protected $fillable = [
-        // Sesuaikan dengan kolom tabel vouchers
+        'code',
+        'name',
+        'description',
+        'discount_type',
+        'discount_value',
+        'max_discount',
+        'min_booking_amount',
+        'usage_limit',
+        'usage_per_user',
+        'used_count',
+        'start_date',
+        'end_date',
+        'status',
     ];
 
-    public function bookings()
-    {
-        return $this->hasMany(Booking::class, 'voucher_id');
-    }
+    protected $casts = [
+        'discount_value' => 'decimal:2',
+        'max_discount' => 'decimal:2',
+        'min_booking_amount' => 'decimal:2',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+    ];
 
     public function redemptions()
     {
